@@ -60,14 +60,15 @@ class MahasiswaMandiri extends Mahasiswa
 
     /**
      * Menghitung tagihan semester untuk mahasiswa mandiri.
-     * Mahasiswa mandiri membayar penuh sesuai tarif UKT nominal.
+     * Total tagihan = tarifUktNominal + Rp100.000
+     * (dikenakan biaya operasional kemahasiswaan/praktikum flat Rp100.000)
      *
      * @return float Total tagihan semester
      */
     public function hitungTagihanSemester()
     {
-        // Mahasiswa Mandiri membayar 100% tarif UKT nominal
-        return $this->tarifUktNominal;
+        // Mahasiswa Mandiri: tarif UKT + biaya operasional kemahasiswaan Rp100.000
+        return $this->tarifUktNominal + 100000;
     }
 
     /**

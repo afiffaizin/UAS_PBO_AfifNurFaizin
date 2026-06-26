@@ -60,15 +60,16 @@ class MahasiswaPrestasi extends Mahasiswa
 
     /**
      * Menghitung tagihan semester untuk mahasiswa prestasi.
-     * Mahasiswa Prestasi mendapat beasiswa penuh dari instansi,
-     * sehingga tagihan semester = Rp 0.
+     * Total tagihan = tarifUktNominal × 0.25
+     * (mendapat potongan biaya prestasi sebesar 75%,
+     *  sehingga mahasiswa cukup membayar 25% dari tarif UKT aslinya)
      *
      * @return float Total tagihan semester
      */
     public function hitungTagihanSemester()
     {
-        // Mahasiswa Prestasi dibebaskan dari biaya UKT (ditanggung beasiswa)
-        return 0;
+        // Mahasiswa Prestasi: potongan 75%, cukup bayar 25% tarif UKT
+        return $this->tarifUktNominal * 0.25;
     }
 
     /**
