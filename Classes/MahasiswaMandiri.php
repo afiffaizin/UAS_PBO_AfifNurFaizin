@@ -105,4 +105,39 @@ class MahasiswaMandiri extends Mahasiswa
     {
         return $this->namaWali;
     }
+
+    // =====================================================
+    // METODE QUERY BERSYARAT (WHERE)
+    // =====================================================
+
+    /**
+     * Mengambil seluruh data mahasiswa mandiri dari database.
+     * Query menggunakan klausa WHERE jenis_pembiayaan = 'Mandiri'
+     * sehingga hanya data mahasiswa mandiri yang dimuat.
+     *
+     * @param  mysqli $koneksi Objek koneksi database
+     * @return MahasiswaMandiri[] Array of MahasiswaMandiri objects
+     */
+    public static function getAll($koneksi)
+    {
+        $data = [];
+        $query = "SELECT * FROM tabel_mahasiswa WHERE jenis_pembiayaan = 'Mandiri' ORDER BY id_mahasiswa ASC";
+        $result = $koneksi->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $data[] = new MahasiswaMandiri(
+                    $row['id_mahasiswa'],
+                    $row['nama_mahasiswa'],
+                    $row['nim'],
+                    $row['semester'],
+                    $row['trif_ukt_nominal'],
+                    $row['golongan_ukt'] ?? '-',
+                    $row['nama_wali'] ?? '-'
+                );
+            }
+        }
+
+        return $data;
+    }
 }

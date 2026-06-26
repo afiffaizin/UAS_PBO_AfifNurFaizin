@@ -106,4 +106,39 @@ class MahasiswaPrestasi extends Mahasiswa
     {
         return $this->minimalIpkSyarat;
     }
+
+    // =====================================================
+    // METODE QUERY BERSYARAT (WHERE)
+    // =====================================================
+
+    /**
+     * Mengambil seluruh data mahasiswa prestasi dari database.
+     * Query menggunakan klausa WHERE jenis_pembiayaan = 'Prestasi'
+     * sehingga hanya data mahasiswa prestasi yang dimuat.
+     *
+     * @param  mysqli $koneksi Objek koneksi database
+     * @return MahasiswaPrestasi[] Array of MahasiswaPrestasi objects
+     */
+    public static function getAll($koneksi)
+    {
+        $data = [];
+        $query = "SELECT * FROM tabel_mahasiswa WHERE jenis_pembiayaan = 'Prestasi' ORDER BY id_mahasiswa ASC";
+        $result = $koneksi->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $data[] = new MahasiswaPrestasi(
+                    $row['id_mahasiswa'],
+                    $row['nama_mahasiswa'],
+                    $row['nim'],
+                    $row['semester'],
+                    $row['trif_ukt_nominal'],
+                    $row['nama_instansi_beasiswa'] ?? '-',
+                    $row['minimal_ipk_syarat'] ?? 0
+                );
+            }
+        }
+
+        return $data;
+    }
 }

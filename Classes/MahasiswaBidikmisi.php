@@ -105,4 +105,39 @@ class MahasiswaBidikmisi extends Mahasiswa
     {
         return $this->opsiSahamId;
     }
+
+    // =====================================================
+    // METODE QUERY BERSYARAT (WHERE)
+    // =====================================================
+
+    /**
+     * Mengambil seluruh data mahasiswa bidikmisi dari database.
+     * Query menggunakan klausa WHERE jenis_pembiayaan = 'Bidikmisi'
+     * sehingga hanya data mahasiswa bidikmisi yang dimuat.
+     *
+     * @param  mysqli $koneksi Objek koneksi database
+     * @return MahasiswaBidikmisi[] Array of MahasiswaBidikmisi objects
+     */
+    public static function getAll($koneksi)
+    {
+        $data = [];
+        $query = "SELECT * FROM tabel_mahasiswa WHERE jenis_pembiayaan = 'Bidikmisi' ORDER BY id_mahasiswa ASC";
+        $result = $koneksi->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $data[] = new MahasiswaBidikmisi(
+                    $row['id_mahasiswa'],
+                    $row['nama_mahasiswa'],
+                    $row['nim'],
+                    $row['semester'],
+                    $row['trif_ukt_nominal'],
+                    $row['dana_saku_subsidi'] ?? 0,
+                    $row['nomor_kip_kuliah'] ?? '-'
+                );
+            }
+        }
+
+        return $data;
+    }
 }
